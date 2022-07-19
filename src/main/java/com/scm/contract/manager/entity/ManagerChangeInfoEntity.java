@@ -1,21 +1,29 @@
 package com.scm.contract.manager.entity;
 
+import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
+import jdk.jshell.JShell;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Table(name="tb_cntrt_chg_info", schema="tcms")
 @Data // @Getter/@Setter, @ToString 등 생성
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ManagerChangeInfoEntity {
     @Id
     @Column(name="cntrt_id")
     private String cntrtId; //계약 ID
-    @Column(name="seq_no")
-    private String seqNo; // 일련번호
     @Column(name="pre_actor_id")
     private String preActorId; // 이전 계약담당자 ID
     @Column(name="aft_actor_id")

@@ -1,0 +1,9 @@
+com/scm/contract/manager/repository/ManagerChangeInfoRepository.class
+com/scm/contract/manager/service/ManagerService.class
+com/scm/contract/manager/entity/ManagerEntity.class
+com/scm/contract/commoninfo/repository/CommonInfoRepository.class
+com/scm/contract/commoninfo/entity/CommonInfoEntity.class
+com/scm/contract/manager/controller/ManagerController.class
+com/scm/contract/ContractApplication.class
+com/scm/contract/manager/entity/ManagerChangeInfoEntity.class
+com/scm/contract/manager/service/ManagerServiceImpl.class
