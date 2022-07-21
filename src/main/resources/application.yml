@@ -1,6 +1,5 @@
-
 server:
-  port: 9002
+  port: 9091
 spring:
   devtools:
     livereload:
@@ -22,8 +21,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: 'true'
-        show-sql: 'true'
+        format_sql: "true"
+        show-sql: "true"
     hibernate:
       ddl-auto: update
     generate-ddl: true

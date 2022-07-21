@@ -1,7 +1,5 @@
 package com.scm.contract.manager.entity;
 
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
-import jdk.jshell.JShell;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Entity
 @Table(name="tb_cntrt_chg_info", schema="tcms")
