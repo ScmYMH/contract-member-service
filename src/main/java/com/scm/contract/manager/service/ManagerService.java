@@ -1,0 +1,19 @@
+package com.scm.contract.manager.service;
+
+import com.scm.contract.manager.dto.ManagerDto;
+import com.scm.contract.manager.entity.ManagerEntity;
+import java.util.List;
+import java.util.stream.Stream;
+
+public interface ManagerService {
+
+    Stream<ManagerDto> getmember();
+
+    Stream<ManagerDto> getmemberById(String loginId);
+
+    Stream<ManagerDto> getmemberByName(String userNm);
+
+    List<ManagerEntity> insertManager(List<ManagerEntity> managerEntity);
+    String deleteManager(String userId);
+
+}
