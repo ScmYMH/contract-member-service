@@ -11,6 +11,7 @@ import com.scm.contract.manager.entity.ManagerChangeInfoEntity;
 import com.scm.contract.manager.entity.ManagerEntity;
 import com.scm.contract.manager.repository.ManagerChangeInfoRepository;
 import com.scm.contract.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-@slf4j
+@Slf4j
 public class ManagerServiceImpl implements ManagerService{
 
     @Autowired
@@ -40,10 +41,12 @@ public class ManagerServiceImpl implements ManagerService{
     Date today;
 
     public List<CommonInfoEntity> findContractListAll(String curActorId){
-        return commonInfoRepository.findAll();
+
+        return commonInfoRepository.findByCrePersonId(curActorId);
     }
 
     public List<ResManagerChangeInfoPostDto> insertManagerChangeInfo(ReqManagerChangeInfoPostDto reqMngChgInfoPostDto){
+
         String[] cntrtArray = reqMngChgInfoPostDto.getCntrtId();
 
         today = new Date();
@@ -71,19 +74,16 @@ public class ManagerServiceImpl implements ManagerService{
 
             // 계약 ID 값으로 계약명 불러오기
             Optional<String> optCntrtName = commonInfoRepository.findCntrtNameByCntrtId(cntrtArray[i]);
-            System.out.println("optCntrName : " + optCntrtName);
             String cntrtName = null;
             if(optCntrtName.isPresent()) cntrtName = optCntrtName.get();
 
             // 현담당자 ID 값으로 현담당자 name 불러오기
             Optional<String> optPreActorName = userRepository.findUserNameByUserId(managerChangeInfoEntity.getPreActorId());
-            System.out.println("optPreActorName : " + optPreActorName);
             String preActorName = null;
             if(optCntrtName.isPresent()) preActorName = optPreActorName.get();
 
             // 인수담당자 ID 값으로 인수담당자 name 불러오기
             Optional<String> optAftActorName = userRepository.findUserNameByUserId(managerChangeInfoEntity.getAftActorId());
-            System.out.println("optAftActorName : " + optAftActorName);
             String aftActorName = null;
             if(optCntrtName.isPresent()) aftActorName = optAftActorName.get();
 
@@ -103,6 +103,7 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     public boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDeleteDto reqMngChgInfoPutDto){
+
         String[] cntrtArray = reqMngChgInfoPutDto.getCntrtId();
 
         today = new Date();
@@ -137,6 +138,7 @@ public class ManagerServiceImpl implements ManagerService{
 
     // 확정여부 validation -> front에서 체크할거기 때문에 확정여부가 Y인지 체크할 필요 없음
     public boolean deleteManagerChangeInfo(String curActorId){
+
         Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findById(curActorId);
         if(optManagerChangeInfoEntity.isPresent()){
             managerChangeInfoRepository.deleteById(curActorId);
