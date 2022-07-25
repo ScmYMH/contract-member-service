@@ -23,10 +23,10 @@ public class ManagerController {
     @Autowired
     ManagerService managerService;
 
-    @GetMapping("/cntrtlist/{curActorId}")
-    public List<CommonInfoEntity> getContractListByCurrentPersonId(@PathVariable String curActorId) {
+    @GetMapping("/cntrtlist/{crePersonId}")
+    public List<CommonInfoEntity> getContractListByCrePersonId(@PathVariable String crePersonId) {
 
-        return managerService.findContractListAll(curActorId);
+        return managerService.findContractListByCrePersonId(crePersonId);
     }
 
     @PostMapping("/chginfo")

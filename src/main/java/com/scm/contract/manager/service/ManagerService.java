@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public interface ManagerService {
 
-    List<CommonInfoEntity> findContractListAll(String curActorId);
+    List<CommonInfoEntity> findContractListByCrePersonId(String curActorId);
 
     List<ResManagerChangeInfoPostDto> insertManagerChangeInfo(ReqManagerChangeInfoPostDto mngChgInfoPostDto);
 

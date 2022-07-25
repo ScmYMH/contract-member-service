@@ -40,9 +40,10 @@ public class ManagerServiceImpl implements ManagerService{
 
     Date today;
 
-    public List<CommonInfoEntity> findContractListAll(String curActorId){
+    public List<CommonInfoEntity> findContractListByCrePersonId(String crePersonId){
 
-        return commonInfoRepository.findByCrePersonId(curActorId);
+        return commonInfoRepository.findByCrePersonId(crePersonId);
+
     }
 
     public List<ResManagerChangeInfoPostDto> insertManagerChangeInfo(ReqManagerChangeInfoPostDto reqMngChgInfoPostDto){
