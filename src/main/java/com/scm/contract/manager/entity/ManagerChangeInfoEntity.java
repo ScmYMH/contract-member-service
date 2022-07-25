@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,10 +17,14 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicInsert
 public class ManagerChangeInfoEntity {
     @Id
     @Column(name="cntrt_id")
     private String cntrtId; //계약 ID
+
+    @Column(name="seq_no", insertable = false)
+    private Integer seqNo;
 
     @Column(name="pre_actor_id")
     private String preActorId; // 이전 계약담당자 ID

@@ -70,9 +70,8 @@ public class ManagerServiceImpl implements ManagerService{
                     .updTime(new SimpleDateFormat("HHmmss").format(today))
                     .updPersonId("202207130004") // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                     .build();
-
             managerChangeInfoEntity = managerChangeInfoRepository.save(managerChangeInfoEntity);
-
+            log.info(String.valueOf(managerChangeInfoEntity));
             // 계약 ID 값으로 계약명 불러오기
             Optional<String> optCntrtName = commonInfoRepository.findCntrtNameByCntrtId(cntrtArray[i]);
             String cntrtName = null;
@@ -88,8 +87,14 @@ public class ManagerServiceImpl implements ManagerService{
             String aftActorName = null;
             if(optCntrtName.isPresent()) aftActorName = optAftActorName.get();
 
+            // seq 불러오기
+            ManagerChangeInfoEntity tempForSeqNo = managerChangeInfoRepository.findFirstByCntrtIdOrderBySeqNoDesc(managerChangeInfoEntity.getCntrtId());
+
+            System.out.println(tempForSeqNo.getSeqNo());
+
             if(managerChangeInfoEntity.getCntrtId() != null){
                 resmcipdList.add( new ResManagerChangeInfoPostDto(
+                                managerChangeInfoEntity.getSeqNo(),
                                 managerChangeInfoEntity.getCntrtId(),
                                 cntrtName, preActorName, aftActorName,
                                 managerChangeInfoEntity.getValidDate(),
