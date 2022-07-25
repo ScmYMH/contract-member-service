@@ -66,6 +66,12 @@ public class ManagerController {
         return managerService.getmemberByName(userNm);
     }
 
+    @GetMapping("/del/{delYn}")
+    public Stream<ManagerDto> showbyDel(@PathVariable String delYn) {
+
+        return managerService.getmemberByDelYn(delYn);
+    }
+
     @PostMapping("")
     public List<ManagerEntity> putManager(@RequestBody Map<String,List<ManagerEntity>> mapManagerEntity) {
 
