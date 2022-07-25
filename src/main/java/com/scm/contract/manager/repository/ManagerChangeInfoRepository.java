@@ -15,4 +15,6 @@ public interface ManagerChangeInfoRepository extends JpaRepository<ManagerChange
     @Query("SELECT tb.aftActorId FROM ManagerChangeInfoEntity tb WHERE tb.cntrtId = :cntrtId")
 
     Optional<String> findAftActorIdByCntrtId(@Param("cntrtId") String cntrtId);
+
+    Optional<ManagerChangeInfoEntity> findByCntrtIdAndAftActorId(String cntrtId, String aftActorId);
 }

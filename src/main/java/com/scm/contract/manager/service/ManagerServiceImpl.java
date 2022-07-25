@@ -138,11 +138,11 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     // 확정여부 validation -> front에서 체크할거기 때문에 확정여부가 Y인지 체크할 필요 없음
-    public boolean deleteManagerChangeInfo(String curActorId){
+    public boolean deleteManagerChangeInfo(String cntrtId, String aftActorId){
 
-        Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findById(curActorId);
+        Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findByCntrtIdAndAftActorId(cntrtId, aftActorId);
         if(optManagerChangeInfoEntity.isPresent()){
-            managerChangeInfoRepository.deleteById(curActorId);
+            managerChangeInfoRepository.deleteById(optManagerChangeInfoEntity.get().getCntrtId());
             return true;
         }else{
             return false;

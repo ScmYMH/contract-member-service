@@ -18,7 +18,7 @@ public interface ManagerService {
 
     boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDeleteDto reqMngChgInfoPutDto);
 
-    boolean deleteManagerChangeInfo(String curActorId);
+    boolean deleteManagerChangeInfo(String cntrtId, String aftActorId);
 
     Stream<ManagerDto> getmember();
 
