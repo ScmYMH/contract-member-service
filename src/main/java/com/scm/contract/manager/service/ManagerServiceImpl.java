@@ -225,6 +225,31 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     @Override
+    public Stream<ManagerDto> getmemberByDelYn(String delYn) {
+
+        List<ManagerEntity> findAllManagerEntity = contractRepository.findByDelYn(delYn);
+
+
+        Stream<ManagerDto> managerDataByDel = findAllManagerEntity.stream().map(data -> {
+
+            ManagerDto managerDto = new ManagerDto();
+
+            managerDto.setUserNm(data.getUserNm());
+            managerDto.setDelYn(data.getDelYn());
+            managerDto.setEmail(data.getEmail());
+            managerDto.setDeptNm(data.getDeptNm());
+            managerDto.setEmployeeNumber(data.getEmployeeNumber());
+            managerDto.setInsDate(data.getInsDate());
+            managerDto.setLoginId(data.getLoginId());
+            managerDto.setUpdDate(data.getUpdDate());
+
+            return managerDto;
+        });
+
+        return managerDataByDel;
+    }
+
+    @Override
     public List<ManagerEntity> insertManager(List<ManagerEntity> managerEntity) {
 
         Date today = new Date();
