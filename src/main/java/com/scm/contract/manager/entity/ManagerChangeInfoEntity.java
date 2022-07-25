@@ -5,11 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="tb_cntrt_chg_info", schema="tcms")
@@ -17,12 +16,12 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamicInsert
 public class ManagerChangeInfoEntity {
     @Id
     @Column(name="cntrt_id")
     private String cntrtId; //계약 ID
 
+    @Generated(GenerationTime.INSERT)
     @Column(name="seq_no", insertable = false)
     private Integer seqNo;
 

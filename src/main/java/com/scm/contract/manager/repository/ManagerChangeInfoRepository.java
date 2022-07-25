@@ -16,7 +16,6 @@ public interface ManagerChangeInfoRepository extends JpaRepository<ManagerChange
 
     Optional<String> findAftActorIdByCntrtId(@Param("cntrtId") String cntrtId);
 
-    Optional<ManagerChangeInfoEntity> findByCntrtIdAndAftActorId(String cntrtId, String aftActorId);
+    Optional<ManagerChangeInfoEntity> findBySeqNo(Integer seqNo);
 
-    ManagerChangeInfoEntity findFirstByCntrtIdOrderBySeqNoDesc(String cntrtId);
 }
