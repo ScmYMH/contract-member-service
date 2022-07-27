@@ -49,11 +49,7 @@ public class ManagerController {
         return managerService.deleteManagerChangeInfo(cntrtId, aftActorId);
     }
     
-    @GetMapping("")
-    public Stream<ManagerDto> show() {
 
-        return managerService.getmember();
-    }
 
     @GetMapping("/id/{loginId}")
     public Stream<ManagerDto> showbyId(@PathVariable String loginId) {
@@ -67,6 +63,19 @@ public class ManagerController {
         return managerService.getmemberByName(userNm);
     }
 
+    @GetMapping("/del/{delYn}")
+    public Stream<ManagerDto> showbyDel(@PathVariable String delYn) {
+
+        return managerService.getmemberByDelYn(delYn);
+    }
+
+    @GetMapping("/search")
+    public Stream<ManagerDto> showManagerInfo(@RequestParam String loginId, @RequestParam String userNm, @RequestParam String delYn) {
+
+        return managerService.getManagerList(loginId, userNm, delYn);
+    }
+
+    @GetMapping("/info")
     @PostMapping("")
     public List<ManagerEntity> putManager(@RequestBody Map<String,List<ManagerEntity>> mapManagerEntity) {
 

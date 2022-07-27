@@ -6,6 +6,7 @@ import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDeleteDto;
 import com.scm.contract.manager.dto.ResManagerChangeInfoPostDto;
 import com.scm.contract.manager.dto.ManagerDto;
 import com.scm.contract.manager.entity.ManagerEntity;
+import org.apache.catalina.Manager;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -26,8 +27,12 @@ public interface ManagerService {
 
     Stream<ManagerDto> getmemberByName(String userNm);
 
+    Stream<ManagerDto> getmemberByDelYn(String delYn);
+
     List<ManagerEntity> insertManager(List<ManagerEntity> managerEntity);
     
     String deleteManager(String userId);
+
+    Stream<ManagerDto> getManagerList(String loginId, String userNm, String delYn);
 
 }
