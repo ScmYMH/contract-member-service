@@ -250,6 +250,27 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     @Override
+    public Stream<ManagerDto> getManagerList(String loginId, String userNm , String delYn) {
+        List<ManagerEntity> findAllManagerInfo = contractRepository.findByLoginIdContainingAndUserNmContainingAndDelYnContaining(loginId, userNm, delYn);
+        Stream<ManagerDto> managerData = findAllManagerInfo.stream().map(data -> {
+
+            ManagerDto managerDto = new ManagerDto();
+
+            managerDto.setUserNm(data.getUserNm());
+            managerDto.setDelYn(data.getDelYn());
+            managerDto.setEmail(data.getEmail());
+            managerDto.setDeptNm(data.getDeptNm());
+            managerDto.setEmployeeNumber(data.getEmployeeNumber());
+            managerDto.setInsDate(data.getInsDate());
+            managerDto.setLoginId(data.getLoginId());
+            managerDto.setUpdDate(data.getUpdDate());
+
+            return managerDto;
+        });
+        return managerData;
+    }
+
+    @Override
     public List<ManagerEntity> insertManager(List<ManagerEntity> managerEntity) {
 
         Date today = new Date();
@@ -284,6 +305,7 @@ public class ManagerServiceImpl implements ManagerService{
 
         return isSuccess;
     }
+
 
 
 }

@@ -14,5 +14,6 @@ public interface ManagerRepository extends JpaRepository<ManagerEntity, String> 
 
     List<ManagerEntity> findByDelYn(String delYn);
     ManagerEntity findByUserIdAndDelYn(String userId, String delYn);
+    List<ManagerEntity> findByLoginIdContainingAndUserNmContainingAndDelYnContaining(String loginId, String userNm, String delYn);
 
 }

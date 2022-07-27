@@ -33,4 +33,6 @@ public interface ManagerService {
     
     String deleteManager(String userId);
 
+    Stream<ManagerDto> getManagerList(String loginId, String userNm, String delYn);
+
 }
