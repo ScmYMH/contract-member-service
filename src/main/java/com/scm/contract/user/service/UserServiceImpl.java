@@ -108,6 +108,11 @@ public class UserServiceImpl implements UserService{
             userDto.setInsDate(data.getInsDate());
             userDto.setLoginId(data.getLoginId());
             userDto.setUpdDate(data.getUpdDate());
+            userDto.setUserId(data.getUserId());
+            userDto.setHpNo(data.getHpNo());
+            userDto.setTelNo(data.getTelNo());
+            userDto.setLangCd(data.getLangCd());
+            userDto.setNationCd(data.getNationCd());
 
             return userDto;
         });
