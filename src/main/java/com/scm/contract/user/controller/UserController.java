@@ -1,5 +1,6 @@
 package com.scm.contract.user.controller;
 
+import com.scm.contract.manager.dto.ManagerDto;
 import com.scm.contract.user.dto.UserDto;
 import com.scm.contract.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,11 @@ public class UserController {
 
         return userService.getUserByUserNm(userNm);
     }
+    @GetMapping("/search")
+    public Stream<UserDto> showUserInfo(@RequestParam String loginId, @RequestParam String userNm) {
 
+        return userService.getUserList(loginId, userNm);
+    }
 
 
 }
