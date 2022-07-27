@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class ResManagerChangeInfoPostDto{
+    private Integer seqNo;
     private String cntrtId; // 계약 ID
     private String cntrtName; // 계약명
     private String preActorName; // 이전 계약담당자 ID로 이름 조회
@@ -13,7 +14,8 @@ public class ResManagerChangeInfoPostDto{
     private String reasonDesc; // 변경사유 코멘트
     private String cmptYn; // 확정 여부
 
-    public ResManagerChangeInfoPostDto(String cntrtId, String cntrtName, String preActorName, String aftActorName, String validDate, String reasonDesc, String cmptYn){
+    public ResManagerChangeInfoPostDto(Integer seqNo, String cntrtId, String cntrtName, String preActorName, String aftActorName, String validDate, String reasonDesc, String cmptYn){
+        this.setSeqNo(seqNo);
         this.setCntrtId(cntrtId);
         this.setCntrtName(cntrtName);
         this.setPreActorName(preActorName);

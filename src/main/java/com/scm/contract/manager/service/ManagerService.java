@@ -2,7 +2,7 @@ package com.scm.contract.manager.service;
 
 import com.scm.contract.commoninfo.entity.CommonInfoEntity;
 import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDeleteDto;
+import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDto;
 import com.scm.contract.manager.dto.ResManagerChangeInfoPostDto;
 import com.scm.contract.manager.dto.ManagerDto;
 import com.scm.contract.manager.entity.ManagerEntity;
@@ -17,9 +17,9 @@ public interface ManagerService {
 
     List<ResManagerChangeInfoPostDto> insertManagerChangeInfo(ReqManagerChangeInfoPostDto mngChgInfoPostDto);
 
-    boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDeleteDto reqMngChgInfoPutDto);
+    boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDto reqMngChgInfoPutDto);
 
-    boolean deleteManagerChangeInfo(String cntrtId, String aftActorId);
+    boolean deleteManagerChangeInfo(Integer seqNo);
 
     Stream<ManagerDto> getmember();
 

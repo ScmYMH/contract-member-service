@@ -2,7 +2,7 @@ package com.scm.contract.manager.service;
 
 import com.scm.contract.commoninfo.entity.CommonInfoEntity;
 import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDeleteDto;
+import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDto;
 import com.scm.contract.manager.dto.ResManagerChangeInfoPostDto;
 import com.scm.contract.manager.repository.ManagerRepository;
 import com.scm.contract.commoninfo.repository.CommonInfoRepository;
@@ -70,9 +70,8 @@ public class ManagerServiceImpl implements ManagerService{
                     .updTime(new SimpleDateFormat("HHmmss").format(today))
                     .updPersonId("202207130004") // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                     .build();
-
             managerChangeInfoEntity = managerChangeInfoRepository.save(managerChangeInfoEntity);
-
+            log.info(String.valueOf(managerChangeInfoEntity));
             // 계약 ID 값으로 계약명 불러오기
             Optional<String> optCntrtName = commonInfoRepository.findCntrtNameByCntrtId(cntrtArray[i]);
             String cntrtName = null;
@@ -90,6 +89,7 @@ public class ManagerServiceImpl implements ManagerService{
 
             if(managerChangeInfoEntity.getCntrtId() != null){
                 resmcipdList.add( new ResManagerChangeInfoPostDto(
+                                managerChangeInfoEntity.getSeqNo(),
                                 managerChangeInfoEntity.getCntrtId(),
                                 cntrtName, preActorName, aftActorName,
                                 managerChangeInfoEntity.getValidDate(),
@@ -103,7 +103,7 @@ public class ManagerServiceImpl implements ManagerService{
         return resmcipdList;
     }
 
-    public boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDeleteDto reqMngChgInfoPutDto){
+    public boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDto reqMngChgInfoPutDto){
 
         String[] cntrtArray = reqMngChgInfoPutDto.getCntrtId();
 
@@ -138,9 +138,9 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     // 확정여부 validation -> front에서 체크할거기 때문에 확정여부가 Y인지 체크할 필요 없음
-    public boolean deleteManagerChangeInfo(String cntrtId, String aftActorId){
+    public boolean deleteManagerChangeInfo(Integer seqNo){
 
-        Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findByCntrtIdAndAftActorId(cntrtId, aftActorId);
+        Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findBySeqNo(seqNo);
         if(optManagerChangeInfoEntity.isPresent()){
             managerChangeInfoRepository.deleteById(optManagerChangeInfoEntity.get().getCntrtId());
             return true;
