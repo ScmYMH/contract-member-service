@@ -1,5 +1,7 @@
 package com.scm.contract.user.service;
 
+import com.scm.contract.manager.dto.ManagerDto;
+import com.scm.contract.manager.entity.ManagerEntity;
 import com.scm.contract.user.dto.UserDto;
 import com.scm.contract.user.entity.UserEntity;
 import com.scm.contract.user.repository.UserRepository;
@@ -88,6 +90,28 @@ public class UserServiceImpl implements UserService{
 
 
         return userDataByName;
+    }
+
+    @Override
+    public Stream<UserDto> getUserList(String loginId, String userNm) {
+
+        List<UserEntity> findAllUserInfo = userRepository.findByLoginIdContainingAndUserNmContaining(loginId, userNm);
+        Stream<UserDto> userData = findAllUserInfo.stream().map(data -> {
+
+            UserDto userDto = new UserDto();
+
+            userDto.setUserNm(data.getUserNm());
+            userDto.setDelYn(data.getDelYn());
+            userDto.setEmail(data.getEmail());
+            userDto.setDeptNm(data.getDeptNm());
+            userDto.setEmployeeNumber(data.getEmployeeNumber());
+            userDto.setInsDate(data.getInsDate());
+            userDto.setLoginId(data.getLoginId());
+            userDto.setUpdDate(data.getUpdDate());
+
+            return userDto;
+        });
+        return userData;
     }
 
 

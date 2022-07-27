@@ -18,5 +18,5 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     List<UserEntity> findByLoginId(String loginId);
 
     List<UserEntity>  findByUserNm(String userNm);
-
+    List<UserEntity> findByLoginIdContainingAndUserNmContaining(String loginId, String userNm);
 }
