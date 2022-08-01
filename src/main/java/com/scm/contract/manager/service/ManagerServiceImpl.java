@@ -305,26 +305,4 @@ public class ManagerServiceImpl implements ManagerService{
         return isSuccess;
     }
 
-//    @Override
-//    public String deleteManager(String userId) {
-//        String isSuccess = "N";
-//        ManagerEntity managerEntity = contractRepository.findByUserIdAndDelYn(userId, "N");
-//
-//        Date today = new Date();
-//
-//        managerEntity.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today).toString());
-//        managerEntity.setUpdTime(new SimpleDateFormat("HHmmss").format(today).toString());
-//        managerEntity.setUpdPersonId("202207130002");
-//
-//        if(managerEntity == null) {
-//            return isSuccess;
-//        }
-//        managerEntity.setDelYn("Y");
-//        isSuccess = String.valueOf(contractRepository.save(managerEntity) != null);
-//
-//        return isSuccess;
-//    }
-
-
-
 }
