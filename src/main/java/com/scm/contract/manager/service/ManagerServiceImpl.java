@@ -264,6 +264,7 @@ public class ManagerServiceImpl implements ManagerService{
             managerDto.setInsDate(data.getInsDate());
             managerDto.setLoginId(data.getLoginId());
             managerDto.setUpdDate(data.getUpdDate());
+            managerDto.setUserId(data.getUserId());
 
             return managerDto;
         });
@@ -275,17 +276,15 @@ public class ManagerServiceImpl implements ManagerService{
 
         Date today = new Date();
 
-        managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today).toString()));
-        managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdTime(new SimpleDateFormat("HHmmss").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsDate(new SimpleDateFormat("yyyyMMdd").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsTime(new SimpleDateFormat("HHmmss").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdPersonId("202207130002"));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setDelYn("N"));
+        managerEntity.forEach(managerEntity1 -> managerEntity1.setInsPersonId("Admin"));
 
         return contractRepository.saveAll(managerEntity);
 
     }
-
     @Override
     public String deleteManager(String userId) {
         String isSuccess = "N";
@@ -305,6 +304,26 @@ public class ManagerServiceImpl implements ManagerService{
 
         return isSuccess;
     }
+
+//    @Override
+//    public String deleteManager(String userId) {
+//        String isSuccess = "N";
+//        ManagerEntity managerEntity = contractRepository.findByUserIdAndDelYn(userId, "N");
+//
+//        Date today = new Date();
+//
+//        managerEntity.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today).toString());
+//        managerEntity.setUpdTime(new SimpleDateFormat("HHmmss").format(today).toString());
+//        managerEntity.setUpdPersonId("202207130002");
+//
+//        if(managerEntity == null) {
+//            return isSuccess;
+//        }
+//        managerEntity.setDelYn("Y");
+//        isSuccess = String.valueOf(contractRepository.save(managerEntity) != null);
+//
+//        return isSuccess;
+//    }
 
 
 

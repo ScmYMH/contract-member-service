@@ -72,10 +72,10 @@ public class ManagerController {
     @GetMapping("/search")
     public Stream<ManagerDto> showManagerInfo(@RequestParam String loginId, @RequestParam String userNm, @RequestParam String delYn) {
 
-        return managerService.getManagerList(loginId, userNm, delYn);
+            return managerService.getManagerList(loginId, userNm, delYn);
     }
 
-    @GetMapping("/info")
+    //@GetMapping("/info")
     @PostMapping("")
     public List<ManagerEntity> putManager(@RequestBody Map<String,List<ManagerEntity>> mapManagerEntity) {
 

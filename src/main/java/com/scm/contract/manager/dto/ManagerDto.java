@@ -13,5 +13,6 @@ public class ManagerDto {
     private String delYn;
     private String insDate;
     private String updDate;
+    private String userId;
 
 }
