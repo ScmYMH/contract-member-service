@@ -10,12 +10,6 @@ import java.util.Optional;
 
 
 @Repository
-public interface ManagerChangeInfoRepository extends JpaRepository<ManagerChangeInfoEntity, String> { // T: Table, ID: primary key type
-    // 계약 ID 값으로 바뀐 계약 담당자 ID(AFT_ACTOR_ID) 가져오기
-    @Query("SELECT tb.aftActorId FROM ManagerChangeInfoEntity tb WHERE tb.cntrtId = :cntrtId")
-
-    Optional<String> findAftActorIdByCntrtId(@Param("cntrtId") String cntrtId);
-
-    Optional<ManagerChangeInfoEntity> findBySeqNo(Integer seqNo);
+public interface ManagerChangeInfoRepository extends JpaRepository<ManagerChangeInfoEntity, Integer> { // T: Table, ID: primary key type
 
 }

@@ -1,10 +1,7 @@
 package com.scm.contract.manager.controller;
 
 import com.scm.contract.commoninfo.entity.CommonInfoEntity;
-import com.scm.contract.manager.dto.ManagerDto;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDto;
-import com.scm.contract.manager.dto.ResManagerChangeInfoPostDto;
+import com.scm.contract.manager.dto.*;
 import com.scm.contract.manager.entity.ManagerEntity;
 import com.scm.contract.manager.service.ManagerService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +21,7 @@ public class ManagerController {
     ManagerService managerService;
 
     @GetMapping("/cntrtlist/{crePersonId}")
-    public List<CommonInfoEntity> getContractListByCrePersonId(@PathVariable String crePersonId) {
+    public List<ResManagerChangInfoGetDto> getContractListByCrePersonId(@PathVariable String crePersonId) {
 
         return managerService.findContractListByCrePersonId(crePersonId);
     }
@@ -36,17 +33,17 @@ public class ManagerController {
     }
 
     @PutMapping("/chginfo")
-    public boolean putManagerChangeInfo(@RequestBody ReqManagerChangeInfoPutDto mngChgInfoPutDto){
+    public boolean putManagerChangeInfo(@RequestBody Integer[] seqNoArray){
 
-        return managerService.updateMangerChangeInfo(mngChgInfoPutDto);
+        return managerService.updateMangerChangeInfo(seqNoArray);
     }
 
     // @RequestBody에 여러개의 계약ID값을 담아 보내기에는 restful하다고 생각하지 않아서 front단에서 하나씩 api를 보내는걸로 생각
     // 계약 ID값과 인수담당자 이름을 확인해서 삭제
-    @DeleteMapping("/chginfo/{seqNo}")
-    public boolean deleteManagerChangeInfo(@PathVariable Integer seqNo){
+    @DeleteMapping("/chginfo/{seqNoParam}")
+    public boolean deleteManagerChangeInfo(@PathVariable String seqNoParam){
 
-        return managerService.deleteManagerChangeInfo(seqNo);
+        return managerService.deleteManagerChangeInfo(seqNoParam);
     }
     
 
