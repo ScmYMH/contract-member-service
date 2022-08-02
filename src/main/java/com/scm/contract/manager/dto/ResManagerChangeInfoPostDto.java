@@ -7,19 +7,19 @@ import lombok.Data;
 public class ResManagerChangeInfoPostDto{
     private Integer seqNo;
     private String cntrtId; // 계약 ID
-    private String cntrtName; // 계약명
-    private String preActorName; // 이전 계약담당자 ID로 이름 조회
-    private String aftActorName; // 이후 계약담당자 ID로 이름 조회
+    private String cntrtNm; // 계약명
+    private String preActorNm; // 이전 계약담당자 ID로 이름 조회
+    private String aftActorNm; // 이후 계약담당자 ID로 이름 조회
     private String validDate; // 유효 시작일 -> format 변경 (20220714 -> 7/14/22)
     private String reasonDesc; // 변경사유 코멘트
     private String cmptYn; // 확정 여부
 
-    public ResManagerChangeInfoPostDto(Integer seqNo, String cntrtId, String cntrtName, String preActorName, String aftActorName, String validDate, String reasonDesc, String cmptYn){
+    public ResManagerChangeInfoPostDto(Integer seqNo, String cntrtId, String cntrtNm, String preActorNm, String aftActorNm, String validDate, String reasonDesc, String cmptYn){
         this.setSeqNo(seqNo);
         this.setCntrtId(cntrtId);
-        this.setCntrtName(cntrtName);
-        this.setPreActorName(preActorName);
-        this.setAftActorName(aftActorName);
+        this.setCntrtNm(cntrtNm);
+        this.setPreActorNm(preActorNm);
+        this.setAftActorNm(aftActorNm);
         this.setValidDate(validDate);
         this.setReasonDesc(reasonDesc);
         if(cmptYn.equals("N")){
