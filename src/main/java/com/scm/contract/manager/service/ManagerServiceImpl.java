@@ -14,11 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -58,6 +55,13 @@ public class ManagerServiceImpl implements ManagerService{
             );
             resmciGetList.add(rmcigd);
         }
+
+        resmciGetList.sort(new Comparator<ResManagerChangInfoGetDto>() {
+            @Override
+            public int compare(ResManagerChangInfoGetDto o1, ResManagerChangInfoGetDto o2) {
+                return Integer.parseInt(o2.getCntrtEndDate()) - Integer.parseInt(o1.getCntrtEndDate());
+            }
+        });
 
         return resmciGetList;
 

@@ -72,7 +72,6 @@ public class ManagerController {
             return managerService.getManagerList(loginId, userNm, delYn);
     }
 
-    @GetMapping("/info")
     @PostMapping("")
     public List<ManagerEntity> putManager(@RequestBody Map<String,List<ManagerEntity>> mapManagerEntity) {
 
