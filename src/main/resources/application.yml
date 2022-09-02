@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 9091
 
 spring:
   application:
@@ -30,9 +30,9 @@ spring:
       ddl-auto: update
     generate-ddl: true
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://3.37.155.50:8761/eureka
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://3.37.155.50:8761/eureka

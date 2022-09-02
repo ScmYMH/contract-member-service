@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 public class ContractApplication {
 
     public static void main(String[] args) {
