@@ -22,8 +22,8 @@ public class CommonInfoEntity {
     private String cntrtScd;
     @Column(name="cre_person_id")
     private String crePersonId;
-    @Column(name="cntrt_stat_date")
-    private String cntrtStatDate;
+    @Column(name="cntrt_start_date")
+    private String cntrtStartDate;
     @Column(name="cntrt_end_date")
     private String cntrtEndDate;
     @Column(name="cntrt_curr_cd")
@@ -42,5 +42,7 @@ public class CommonInfoEntity {
     private String updTime;
     @Column(name="upd_person_id")
     private String updPersonId;
+    @Column(name="corp_id")
+    private String corpId;
 
 }

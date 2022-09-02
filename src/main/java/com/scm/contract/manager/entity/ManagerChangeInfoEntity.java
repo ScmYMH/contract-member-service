@@ -4,22 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="tb_cntrt_chg_info", schema="tcms")
+@Table(name="tb_cntrt_chg_info", schema="tcms",
+        uniqueConstraints = @UniqueConstraint(columnNames={"cntrt_id", "seq_no"}))
 @Data // @Getter/@Setter, @ToString 등 생성
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ManagerChangeInfoEntity {
-    @Id
+
     @Column(name="cntrt_id")
     private String cntrtId; //계약 ID
+
+    @Id
+    @GeneratedValue
+    @Column(name="seq_no")
+    private Integer seqNo;
 
     @Column(name="pre_actor_id")
     private String preActorId; // 이전 계약담당자 ID
@@ -41,9 +46,6 @@ public class ManagerChangeInfoEntity {
 
     @Column(name="cmpt_time")
     private String cmptTime;
-
-    @Column(name="del_yn")
-    private String delYn;
 
     @Column(name="ins_date")
     private String insDate;

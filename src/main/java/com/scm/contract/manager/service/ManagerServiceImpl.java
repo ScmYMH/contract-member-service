@@ -1,12 +1,10 @@
 package com.scm.contract.manager.service;
 
+import com.scm.contract.codedefinition.repository.CodeDefinitionRepository;
 import com.scm.contract.commoninfo.entity.CommonInfoEntity;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDeleteDto;
-import com.scm.contract.manager.dto.ResManagerChangeInfoPostDto;
+import com.scm.contract.manager.dto.*;
 import com.scm.contract.manager.repository.ManagerRepository;
 import com.scm.contract.commoninfo.repository.CommonInfoRepository;
-import com.scm.contract.manager.dto.ManagerDto;
 import com.scm.contract.manager.entity.ManagerChangeInfoEntity;
 import com.scm.contract.manager.entity.ManagerEntity;
 import com.scm.contract.manager.repository.ManagerChangeInfoRepository;
@@ -16,11 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,13 +31,39 @@ public class ManagerServiceImpl implements ManagerService{
     ManagerChangeInfoRepository managerChangeInfoRepository;
 
     @Autowired
+    CodeDefinitionRepository codeDefinitionRepository;
+
+    @Autowired
     UserRepository userRepository;
 
     Date today;
 
-    public List<CommonInfoEntity> findContractListByCrePersonId(String crePersonId){
+    public List<ResManagerChangInfoGetDto> findContractListByCrePersonId(String crePersonId){
+        List<ResManagerChangInfoGetDto> resmciGetList = new ArrayList<>();
 
-        return commonInfoRepository.findByCrePersonId(crePersonId);
+        List<CommonInfoEntity> commonInfoEntityList = commonInfoRepository.findByCrePersonId(crePersonId);
+
+        for(int i = 0; i < commonInfoEntityList.size(); i++){
+            String cntrtScd = codeDefinitionRepository.findCdVMeaningByCdV(commonInfoEntityList.get(i).getCntrtScd()).get(); // 코드값 -> 코드 의미 가져오기
+
+            ResManagerChangInfoGetDto rmcigd = new ResManagerChangInfoGetDto(
+                    commonInfoEntityList.get(i).getCntrtId(),
+                    commonInfoEntityList.get(i).getCntrtNm(),
+                    cntrtScd,
+                    commonInfoEntityList.get(i).getCntrtStartDate(),
+                    commonInfoEntityList.get(i).getCntrtEndDate()
+            );
+            resmciGetList.add(rmcigd);
+        }
+
+        resmciGetList.sort(new Comparator<ResManagerChangInfoGetDto>() {
+            @Override
+            public int compare(ResManagerChangInfoGetDto o1, ResManagerChangInfoGetDto o2) {
+                return Integer.parseInt(o2.getCntrtEndDate()) - Integer.parseInt(o1.getCntrtEndDate());
+            }
+        });
+
+        return resmciGetList;
 
     }
 
@@ -62,7 +83,6 @@ public class ManagerServiceImpl implements ManagerService{
                     .validDate(reqMngChgInfoPostDto.getValidDate())
                     .reasonDesc(reqMngChgInfoPostDto.getReasonDesc())
                     .cmptYn("N")
-                    .delYn("N")
                     .insDate(new SimpleDateFormat("yyyyMMdd").format(today))
                     .insTime(new SimpleDateFormat("HHmmss").format(today))
                     .insPersonId("202207130004") // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
@@ -70,9 +90,8 @@ public class ManagerServiceImpl implements ManagerService{
                     .updTime(new SimpleDateFormat("HHmmss").format(today))
                     .updPersonId("202207130004") // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                     .build();
-
             managerChangeInfoEntity = managerChangeInfoRepository.save(managerChangeInfoEntity);
-
+            log.info(String.valueOf(managerChangeInfoEntity));
             // 계약 ID 값으로 계약명 불러오기
             Optional<String> optCntrtName = commonInfoRepository.findCntrtNameByCntrtId(cntrtArray[i]);
             String cntrtName = null;
@@ -90,6 +109,7 @@ public class ManagerServiceImpl implements ManagerService{
 
             if(managerChangeInfoEntity.getCntrtId() != null){
                 resmcipdList.add( new ResManagerChangeInfoPostDto(
+                                managerChangeInfoEntity.getSeqNo(),
                                 managerChangeInfoEntity.getCntrtId(),
                                 cntrtName, preActorName, aftActorName,
                                 managerChangeInfoEntity.getValidDate(),
@@ -103,15 +123,13 @@ public class ManagerServiceImpl implements ManagerService{
         return resmcipdList;
     }
 
-    public boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDeleteDto reqMngChgInfoPutDto){
-
-        String[] cntrtArray = reqMngChgInfoPutDto.getCntrtId();
+    public boolean updateMangerChangeInfo(Integer[] seqNoArray){
 
         today = new Date();
 
-        for(int i = 0; i < cntrtArray.length; i++){
+        for(int i = 0; i < seqNoArray.length; i++){
             // TB_CNTRT_CHG_INFO 테이블 확정여부(CMPT_YN) 항목 'Y'로 UPDATE
-            Optional<ManagerChangeInfoEntity> optManagerChangeInfo=managerChangeInfoRepository.findById(cntrtArray[i]);
+            Optional<ManagerChangeInfoEntity> optManagerChangeInfo=managerChangeInfoRepository.findById(seqNoArray[i]);
             optManagerChangeInfo.ifPresent(mngChgInfo->{
                 mngChgInfo.setCmptYn("Y");
                 mngChgInfo.setCmptDate(new SimpleDateFormat("yyyyMMdd").format(today));
@@ -123,8 +141,9 @@ public class ManagerServiceImpl implements ManagerService{
             });
 
             // TB_CNTRT_INFO 테이블 계약ID(CNTRT_ID)의 계약 담당자 ID(CRE_PERSON_ID) 변경
-            String aftActorId = managerChangeInfoRepository.findAftActorIdByCntrtId(cntrtArray[i]).get(); // 계약 ID 값으로 바뀐 계약 담당자 ID(AFT_ACTOR_ID) 가져오기
-            Optional<CommonInfoEntity> optCommonInfo = commonInfoRepository.findById(cntrtArray[i]);
+            Optional<ManagerChangeInfoEntity> optMngChgInfoEntity = managerChangeInfoRepository.findById(seqNoArray[i]);
+            String aftActorId = optMngChgInfoEntity.get().getAftActorId(); // 계약 ID 값으로 바뀐 계약 담당자 ID(AFT_ACTOR_ID) 가져오기
+            Optional<CommonInfoEntity> optCommonInfo = commonInfoRepository.findById(optMngChgInfoEntity.get().getCntrtId());
             optCommonInfo.ifPresent(commonInfo->{
                 commonInfo.setCrePersonId(aftActorId);
                 commonInfo.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today));
@@ -138,15 +157,17 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     // 확정여부 validation -> front에서 체크할거기 때문에 확정여부가 Y인지 체크할 필요 없음
-    public boolean deleteManagerChangeInfo(String cntrtId, String aftActorId){
-
-        Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findByCntrtIdAndAftActorId(cntrtId, aftActorId);
-        if(optManagerChangeInfoEntity.isPresent()){
-            managerChangeInfoRepository.deleteById(optManagerChangeInfoEntity.get().getCntrtId());
-            return true;
-        }else{
-            return false;
+    public boolean deleteManagerChangeInfo(String seqNoParam){
+        String[] seqNoArray = seqNoParam.split(",");
+        for(int i = 0; i < seqNoArray.length; i++){
+            Optional<ManagerChangeInfoEntity> optManagerChangeInfoEntity = managerChangeInfoRepository.findById(Integer.parseInt(seqNoArray[i]));
+            if(optManagerChangeInfoEntity.isPresent()){
+                managerChangeInfoRepository.deleteById(optManagerChangeInfoEntity.get().getSeqNo());
+            }else{
+                return false;
+            }
         }
+        return true;
     }
 
 
@@ -159,6 +180,7 @@ public class ManagerServiceImpl implements ManagerService{
 
             ManagerDto managerDto = new ManagerDto();
 
+            managerDto.setUserId(data.getUserId());
             managerDto.setUserNm(data.getUserNm());
             managerDto.setDelYn(data.getDelYn());
             managerDto.setEmail(data.getEmail());
@@ -184,6 +206,7 @@ public class ManagerServiceImpl implements ManagerService{
 
             ManagerDto managerDto = new ManagerDto();
 
+            managerDto.setUserId(data.getUserId());
             managerDto.setUserNm(data.getUserNm());
             managerDto.setDelYn(data.getDelYn());
             managerDto.setEmail(data.getEmail());
@@ -209,6 +232,7 @@ public class ManagerServiceImpl implements ManagerService{
 
             ManagerDto managerDto = new ManagerDto();
 
+            managerDto.setUserId(data.getUserId());
             managerDto.setUserNm(data.getUserNm());
             managerDto.setDelYn(data.getDelYn());
             managerDto.setEmail(data.getEmail());
@@ -225,21 +249,68 @@ public class ManagerServiceImpl implements ManagerService{
     }
 
     @Override
+    public Stream<ManagerDto> getmemberByDelYn(String delYn) {
+
+        List<ManagerEntity> findAllManagerEntity = contractRepository.findByDelYn(delYn);
+
+
+        Stream<ManagerDto> managerDataByDel = findAllManagerEntity.stream().map(data -> {
+
+            ManagerDto managerDto = new ManagerDto();
+
+            managerDto.setUserId(data.getUserId());
+            managerDto.setUserNm(data.getUserNm());
+            managerDto.setDelYn(data.getDelYn());
+            managerDto.setEmail(data.getEmail());
+            managerDto.setDeptNm(data.getDeptNm());
+            managerDto.setEmployeeNumber(data.getEmployeeNumber());
+            managerDto.setInsDate(data.getInsDate());
+            managerDto.setLoginId(data.getLoginId());
+            managerDto.setUpdDate(data.getUpdDate());
+
+            return managerDto;
+        });
+
+        return managerDataByDel;
+    }
+
+    @Override
+    public Stream<ManagerDto> getManagerList(String loginId, String userNm , String delYn) {
+        List<ManagerEntity> findAllManagerInfo = contractRepository.findByLoginIdContainingAndUserNmContainingAndDelYnContaining(loginId, userNm, delYn);
+        Stream<ManagerDto> managerData = findAllManagerInfo.stream().map(data -> {
+
+            ManagerDto managerDto = new ManagerDto();
+
+            managerDto.setUserId(data.getUserId());
+            managerDto.setUserNm(data.getUserNm());
+            managerDto.setDelYn(data.getDelYn());
+            managerDto.setEmail(data.getEmail());
+            managerDto.setDeptNm(data.getDeptNm());
+            managerDto.setEmployeeNumber(data.getEmployeeNumber());
+            managerDto.setInsDate(data.getInsDate());
+            managerDto.setLoginId(data.getLoginId());
+            managerDto.setUpdDate(data.getUpdDate());
+            managerDto.setUserId(data.getUserId());
+
+            return managerDto;
+        });
+        return managerData;
+    }
+
+    @Override
     public List<ManagerEntity> insertManager(List<ManagerEntity> managerEntity) {
 
         Date today = new Date();
 
-        managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today).toString()));
-        managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdTime(new SimpleDateFormat("HHmmss").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsDate(new SimpleDateFormat("yyyyMMdd").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsTime(new SimpleDateFormat("HHmmss").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdPersonId("202207130002"));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setDelYn("N"));
+        managerEntity.forEach(managerEntity1 -> managerEntity1.setInsPersonId("Admin"));
 
         return contractRepository.saveAll(managerEntity);
 
     }
-
     @Override
     public String deleteManager(String userId) {
         String isSuccess = "N";
@@ -259,6 +330,5 @@ public class ManagerServiceImpl implements ManagerService{
 
         return isSuccess;
     }
-
 
 }
