@@ -29,13 +29,10 @@ public class UserServiceImpl implements UserService{
             UserDto userDto = new UserDto();
 
             userDto.setUserNm(data.getUserNm());
-            userDto.setDelYn(data.getDelYn());
             userDto.setEmail(data.getEmail());
             userDto.setDeptNm(data.getDeptNm());
             userDto.setEmployeeNumber(data.getEmployeeNumber());
-            userDto.setInsDate(data.getInsDate());
             userDto.setLoginId(data.getLoginId());
-            userDto.setUpdDate(data.getUpdDate());
 
             return userDto;
         });
@@ -53,13 +50,11 @@ public class UserServiceImpl implements UserService{
             UserDto userDto = new UserDto();
 
             userDto.setUserNm(data.getUserNm());
-            userDto.setDelYn(data.getDelYn());
             userDto.setEmail(data.getEmail());
             userDto.setDeptNm(data.getDeptNm());
             userDto.setEmployeeNumber(data.getEmployeeNumber());
-            userDto.setInsDate(data.getInsDate());
             userDto.setLoginId(data.getLoginId());
-            userDto.setUpdDate(data.getUpdDate());
+
 
             return userDto;
         });
@@ -77,13 +72,10 @@ public class UserServiceImpl implements UserService{
             UserDto userDto = new UserDto();
 
             userDto.setUserNm(data.getUserNm());
-            userDto.setDelYn(data.getDelYn());
             userDto.setEmail(data.getEmail());
             userDto.setDeptNm(data.getDeptNm());
             userDto.setEmployeeNumber(data.getEmployeeNumber());
-            userDto.setInsDate(data.getInsDate());
             userDto.setLoginId(data.getLoginId());
-            userDto.setUpdDate(data.getUpdDate());
 
             return userDto;
         });
@@ -101,18 +93,12 @@ public class UserServiceImpl implements UserService{
             UserDto userDto = new UserDto();
 
             userDto.setUserNm(data.getUserNm());
-            userDto.setDelYn(data.getDelYn());
             userDto.setEmail(data.getEmail());
             userDto.setDeptNm(data.getDeptNm());
             userDto.setEmployeeNumber(data.getEmployeeNumber());
-            userDto.setInsDate(data.getInsDate());
             userDto.setLoginId(data.getLoginId());
-            userDto.setUpdDate(data.getUpdDate());
             userDto.setUserId(data.getUserId());
-            userDto.setHpNo(data.getHpNo());
-            userDto.setTelNo(data.getTelNo());
-            userDto.setLangCd(data.getLangCd());
-            userDto.setNationCd(data.getNationCd());
+
 
             return userDto;
         });

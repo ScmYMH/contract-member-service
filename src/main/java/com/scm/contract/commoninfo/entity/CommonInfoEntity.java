@@ -42,5 +42,7 @@ public class CommonInfoEntity {
     private String updTime;
     @Column(name="upd_person_id")
     private String updPersonId;
+    @Column(name="corp_id")
+    private String corpId;
 
 }

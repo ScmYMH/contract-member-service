@@ -1,10 +1,7 @@
 package com.scm.contract.manager.service;
 
 import com.scm.contract.commoninfo.entity.CommonInfoEntity;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPostDto;
-import com.scm.contract.manager.dto.ReqManagerChangeInfoPutDto;
-import com.scm.contract.manager.dto.ResManagerChangeInfoPostDto;
-import com.scm.contract.manager.dto.ManagerDto;
+import com.scm.contract.manager.dto.*;
 import com.scm.contract.manager.entity.ManagerEntity;
 import org.apache.catalina.Manager;
 
@@ -13,13 +10,13 @@ import java.util.stream.Stream;
 
 public interface ManagerService {
 
-    List<CommonInfoEntity> findContractListByCrePersonId(String curActorId);
+    List<ResManagerChangInfoGetDto> findContractListByCrePersonId(String curActorId);
 
     List<ResManagerChangeInfoPostDto> insertManagerChangeInfo(ReqManagerChangeInfoPostDto mngChgInfoPostDto);
 
-    boolean updateMangerChangeInfo(ReqManagerChangeInfoPutDto reqMngChgInfoPutDto);
+    boolean updateMangerChangeInfo(Integer[] seqNoArray);
 
-    boolean deleteManagerChangeInfo(Integer seqNo);
+    boolean deleteManagerChangeInfo(String seqNoParam);
 
     Stream<ManagerDto> getmember();
 
