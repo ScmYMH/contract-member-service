@@ -117,7 +117,6 @@ public class ManagerServiceImpl implements ManagerService{
                                 managerChangeInfoEntity.getCmptYn()));
                 continue;
             }
-
             else return null;
         }
 
