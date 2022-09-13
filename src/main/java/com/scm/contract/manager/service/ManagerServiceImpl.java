@@ -2,6 +2,7 @@ package com.scm.contract.manager.service;
 
 import com.scm.contract.codedefinition.repository.CodeDefinitionRepository;
 import com.scm.contract.commoninfo.entity.CommonInfoEntity;
+import com.scm.contract.config.SecurityService;
 import com.scm.contract.manager.dto.*;
 import com.scm.contract.manager.repository.ManagerRepository;
 import com.scm.contract.commoninfo.repository.CommonInfoRepository;
@@ -35,6 +36,9 @@ public class ManagerServiceImpl implements ManagerService{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SecurityService securityService;
 
     Date today;
 
@@ -72,6 +76,7 @@ public class ManagerServiceImpl implements ManagerService{
         String[] cntrtArray = reqMngChgInfoPostDto.getCntrtId();
 
         today = new Date();
+        String userId = securityService.getIdAtToken();
 
         List<ResManagerChangeInfoPostDto> resmcipdList = new ArrayList<>();
 
@@ -85,10 +90,10 @@ public class ManagerServiceImpl implements ManagerService{
                     .cmptYn("N")
                     .insDate(new SimpleDateFormat("yyyyMMdd").format(today))
                     .insTime(new SimpleDateFormat("HHmmss").format(today))
-                    .insPersonId("202207130004") // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                    .insPersonId(userId) // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                     .updDate(new SimpleDateFormat("yyyyMMdd").format(today))
                     .updTime(new SimpleDateFormat("HHmmss").format(today))
-                    .updPersonId("202207130004") // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                    .updPersonId(userId) // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                     .build();
             managerChangeInfoEntity = managerChangeInfoRepository.save(managerChangeInfoEntity);
             log.info(String.valueOf(managerChangeInfoEntity));
@@ -126,6 +131,7 @@ public class ManagerServiceImpl implements ManagerService{
     public boolean updateMangerChangeInfo(Integer[] seqNoArray){
 
         today = new Date();
+        String userId = securityService.getIdAtToken();
 
         for(int i = 0; i < seqNoArray.length; i++){
             // TB_CNTRT_CHG_INFO 테이블 확정여부(CMPT_YN) 항목 'Y'로 UPDATE
@@ -136,7 +142,7 @@ public class ManagerServiceImpl implements ManagerService{
                 mngChgInfo.setCmptTime(new SimpleDateFormat("HHmmss").format(today));
                 mngChgInfo.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today));
                 mngChgInfo.setUpdTime(new SimpleDateFormat("HHmmss").format(today));
-                mngChgInfo.setUpdPersonId("202207130004"); // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                mngChgInfo.setUpdPersonId(userId); // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                 managerChangeInfoRepository.save(mngChgInfo);
             });
 
@@ -148,7 +154,7 @@ public class ManagerServiceImpl implements ManagerService{
                 commonInfo.setCrePersonId(aftActorId);
                 commonInfo.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today));
                 commonInfo.setUpdTime(new SimpleDateFormat("HHmmss").format(today));
-                commonInfo.setUpdPersonId("202207130004"); // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                commonInfo.setUpdPersonId(userId); // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
                 commonInfoRepository.save(commonInfo);
             });
         }
@@ -301,10 +307,11 @@ public class ManagerServiceImpl implements ManagerService{
     public List<ManagerEntity> insertManager(List<ManagerEntity> managerEntity) {
 
         Date today = new Date();
+        String userId = securityService.getIdAtToken();
 
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsDate(new SimpleDateFormat("yyyyMMdd").format(today).toString()));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsTime(new SimpleDateFormat("HHmmss").format(today).toString()));
-        managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdPersonId("202207130002"));
+        managerEntity.forEach(managerEntity1 -> managerEntity1.setUpdPersonId(userId));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setDelYn("N"));
         managerEntity.forEach(managerEntity1 -> managerEntity1.setInsPersonId("Admin"));
 
@@ -320,7 +327,7 @@ public class ManagerServiceImpl implements ManagerService{
 
         managerEntity.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today).toString());
         managerEntity.setUpdTime(new SimpleDateFormat("HHmmss").format(today).toString());
-        managerEntity.setUpdPersonId("202207130002");
+        managerEntity.setUpdPersonId(userId);
 
         if(managerEntity == null) {
             return isSuccess;
