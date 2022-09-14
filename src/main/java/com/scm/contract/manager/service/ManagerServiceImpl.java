@@ -90,10 +90,10 @@ public class ManagerServiceImpl implements ManagerService{
                     .cmptYn("N")
                     .insDate(new SimpleDateFormat("yyyyMMdd").format(today))
                     .insTime(new SimpleDateFormat("HHmmss").format(today))
-                    .insPersonId(userId) // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                    .insPersonId(userId) // 로그인 한 사용자의 id값(token에서 꺼내온 값)
                     .updDate(new SimpleDateFormat("yyyyMMdd").format(today))
                     .updTime(new SimpleDateFormat("HHmmss").format(today))
-                    .updPersonId(userId) // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                    .updPersonId(userId) // 로그인 한 사용자의 id값(token에서 꺼내온 값)
                     .build();
             managerChangeInfoEntity = managerChangeInfoRepository.save(managerChangeInfoEntity);
             log.info(String.valueOf(managerChangeInfoEntity));
@@ -142,7 +142,7 @@ public class ManagerServiceImpl implements ManagerService{
                 mngChgInfo.setCmptTime(new SimpleDateFormat("HHmmss").format(today));
                 mngChgInfo.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today));
                 mngChgInfo.setUpdTime(new SimpleDateFormat("HHmmss").format(today));
-                mngChgInfo.setUpdPersonId(userId); // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                mngChgInfo.setUpdPersonId(userId); // 로그인 한 사용자의 id값(token에서 꺼내온 값)
                 managerChangeInfoRepository.save(mngChgInfo);
             });
 
@@ -154,7 +154,7 @@ public class ManagerServiceImpl implements ManagerService{
                 commonInfo.setCrePersonId(aftActorId);
                 commonInfo.setUpdDate(new SimpleDateFormat("yyyyMMdd").format(today));
                 commonInfo.setUpdTime(new SimpleDateFormat("HHmmss").format(today));
-                commonInfo.setUpdPersonId(userId); // 원래는 로그인 한 사용자의 id값(token에서 꺼내오면 될듯)
+                commonInfo.setUpdPersonId(userId); // 로그인 한 사용자의 id값(token에서 꺼내온 값)
                 commonInfoRepository.save(commonInfo);
             });
         }
