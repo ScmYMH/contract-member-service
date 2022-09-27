@@ -25,6 +25,7 @@ public class ManagerServiceImpl implements ManagerService{
     @Autowired
     ManagerRepository contractRepository;
 
+
     @Autowired
     CommonInfoRepository commonInfoRepository;
 
