@@ -48,6 +48,8 @@ public class ManagerServiceImpl implements ManagerService{
         List<CommonInfoEntity> commonInfoEntityList = commonInfoRepository.findByCrePersonId(crePersonId);
 
         for(int i = 0; i < commonInfoEntityList.size(); i++){
+            if(commonInfoEntityList.get(i).getDelYn().equals("Y")) continue;
+
             String cntrtScd = codeDefinitionRepository.findCdVMeaningByCdV(commonInfoEntityList.get(i).getCntrtScd()).get(); // 코드값 -> 코드 의미 가져오기
 
             ResManagerChangInfoGetDto rmcigd = new ResManagerChangInfoGetDto(

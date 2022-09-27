@@ -1,5 +1,5 @@
 server:
-  port: 9091
+  port: 9098
 
 spring:
   application:
@@ -30,6 +30,11 @@ spring:
       ddl-auto: update
     generate-ddl: true
 
+jwt:
+  header: Authorization
+  expTime: 864000000
+  secret_key: my-very-secret-keymy-very-secret-keymy-very-secret-keymy-very-secret-keymy-very-secret-key
+#
 #eureka:
 #  client:
 #    register-with-eureka: true
